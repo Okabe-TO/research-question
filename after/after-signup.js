@@ -5,15 +5,15 @@ import { AuthErrorHandler } from './errorHandler/authErrorHandler.js';
 document.addEventListener('DOMContentLoaded', signup);
 
 function signup() {
-	const signupForm = getSignupFormElement();
-	const errorMessage = getSignupErrorMessageElement();
+	const signupFormElement = getSignupFormElement();
+	const errorMessageElement = getSignupErrorMessageElement();
 	const errorHandler = new AuthErrorHandler();
 
-	signupForm.addEventListener('submit', async (event) => {
+	signupFormElement.addEventListener('submit', async (event) => {
 		const username = getUsernameInput();
 		const password = getPasswordInput();
 
-		const validator = new AuthValidation(username, password, errorMessage);
+		const validator = new AuthValidation(username, password, errorMessageElement);
 		if (!validator.validateSignupFields()) { return; }
 
 		try {

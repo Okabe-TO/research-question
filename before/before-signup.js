@@ -1,5 +1,4 @@
 // 元々は、HTMLにscriptタグで埋め込まれていた
-document.cookie = 'cookieName=value; SameSite=None; Secure';
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.3.1/firebase-app.js';
 import { getAuth, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.3.1/firebase-auth.js';
 
@@ -24,12 +23,20 @@ document.addEventListener('DOMContentLoaded', () => {
 		var username = document.getElementById('username').value;
 		var password = document.getElementById('password').value;
 
+		if (!username.includes('@')) {
+			errorMessage.textContent = '有効なE-mailアドレスを入力してください。';
+			return;
+		}
+		if (password.length < 6) {
+			errorMessage.textContent = 'パスワードは6文字以上で入力してください。';
+			return;
+		}
+
 		try {
 			// ユーザ作成時にFirebase Authへ登録
 			const userCredential = await createUserWithEmailAndPassword(auth, username, password);
 			// 送信成功時のリダイレクト先
 			window.location.href = "signup_success.html";
-
 		} catch (error) {
 			switch (error.code) {
 				case 'auth/email-already-in-use':
